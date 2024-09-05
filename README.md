@@ -1,15 +1,15 @@
-## @schnellert/gcp-firestore
+## @schnellert/nest-firestore-orm
 
 Install with:
 
 ```
-npm install @schnellert/nest-gcp-firestore-orm @google-cloud/firestore
+npm install @schnellert/nest-firestore-orm @google-cloud/firestore
 ```
 
 Example document:
 
 ```ts
-import { Document } from "@schnellert/gcp-firestore";
+import { Document } from "@schnellert/nest-firestore-orm";
 
 @Document("accounts")
 export class ExampleDocument {
@@ -20,7 +20,7 @@ export class ExampleDocument {
 Example repository:
 
 ```ts
-import { FirestoreRepositoryBase } from "@schnellert/gcp-firestore";
+import { FirestoreRepositoryBase } from "@schnellert/nest-firestore-orm";
 import { AccountDocument } from "./account.document";
 import { Injectable } from "@nestjs/common";
 import { Firestore } from "@google-cloud/firestore";
@@ -31,4 +31,23 @@ export class ExampleRepository extends FirestoreRepositoryBase<AccountDocument> 
     super(firestore, AccountDocument);
   }
 }
+```
+
+Example module:
+
+```ts
+import { Module } from "@nestjs/common";
+import { Firestore } from "@google-cloud/firestore";
+import { ExampleRepository } from "./example.repository";
+
+@Module({
+  providers: [
+    {
+      provide: Firestore,
+      useFactory: () => new Firestore(),
+    },
+    ExampleRepository,
+  ],
+})
+export class ExampleModule {}
 ```
