@@ -7,7 +7,7 @@
     "email": "me@schnellert.dev"
   },
   "repository": {
-    "url": "https://github.com/schnellert/nest-firestore-orm.git",
+    "url": "git+https://github.com/schnellert/nest-firestore-orm.git",
     "type": "git"
   },
   "publishConfig": {
