@@ -9,6 +9,8 @@ import { FIRESTORE_COLLECTION_NAME_KEY } from "./constants";
 import { FirestoreQueryBuilder } from ".";
 
 /**
+ * FirestoreRepositoryBase
+ *
  * A base repository class for interacting with firestore collections.
  * Provides basic operations and the ability to create complex queries.
  *
