@@ -1,0 +1,27 @@
+name: Pull request checks
+
+on:
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  install-audit-build:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout repository"
+        uses: "actions/checkout@v3"
+
+      - name: "Setup node.js"
+        uses: "actions/setup-node@v3"
+        with:
+          node-version: "20"
+
+      - name: "Install dependenciecs"
+        run: "npm ci"
+
+      - name: "Run npm audit"
+        run: "npm audit"
+
+      - name: "Run build"
+        run: "npm run build"
