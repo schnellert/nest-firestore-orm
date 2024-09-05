@@ -1,6 +1,6 @@
 {
   "name": "@schnellert/nest-firestore-orm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple orm based wrapper for gcp firestore",
   "author": {
     "name": "Felix Schnellert",
