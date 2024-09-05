@@ -1,0 +1,3 @@
+export const FIRESTORE_COLLECTION_NAME_KEY: Symbol = Symbol(
+  "FIRESTORE_COLLECTION_NAME_KEY"
+);
