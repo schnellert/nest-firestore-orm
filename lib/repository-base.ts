@@ -4,7 +4,7 @@ import {
   Firestore,
   Transaction,
 } from "@google-cloud/firestore";
-import { DocumentWithIdOrUndefined, toDocumentWithId } from ".";
+import { DocumentWithId, DocumentWithIdOrUndefined, toDocumentWithId } from ".";
 import { FIRESTORE_COLLECTION_NAME_KEY } from "./constants";
 import { FirestoreQueryBuilder } from ".";
 
@@ -40,6 +40,43 @@ export class FirestoreRepositoryBase<T> {
    */
   createQueryBuilder(): FirestoreQueryBuilder<T> {
     return new FirestoreQueryBuilder<T>(this.collection);
+  }
+
+  /**
+   * Creates a new document in the firestore collection and returns it with its unique identifier.
+   *
+   * @param data - The data to be saved in the new document. This should match the structure defined by the generic type `T`.
+   * @param documentId - (Optional) The id of the document. If not provided, a random uuid will be generated.
+   *
+   * @returns A promise that resolves with the newly created document, including its unique `documentId` field.
+   */
+  async create(data: T, documentId?: string): Promise<DocumentWithId<T>> {
+    documentId = documentId || crypto.randomUUID();
+
+    const reference = this.collection.doc(documentId);
+    await reference.set(data);
+
+    const document = await reference.get();
+    return toDocumentWithId(document);
+  }
+
+  /**
+   * Updates an existing document in the firestore collection and returns it with its unique identifier.
+   *
+   * @param documentId - The id of the document to be updated.
+   * @param data - The partial data to update the document with. This can include one or more fields from the document structure `T`.
+   *
+   * @returns A promise that resolves with the updated document, including its unique `documentId` field.
+   */
+  async update(
+    documentId: string,
+    data: Partial<T>
+  ): Promise<DocumentWithId<T>> {
+    const reference = this.collection.doc(documentId);
+    await reference.update(data);
+
+    const document = await reference.get();
+    return toDocumentWithId(document);
   }
 
   async findOneById(documentId: string): Promise<DocumentWithIdOrUndefined<T>> {
