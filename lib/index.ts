@@ -1,4 +1,4 @@
-export * from "./firestore.decorators";
-export * from "./firestore.query-builder";
-export * from "./firestore.repository-base";
+export * from "./decorators";
+export * from "./query-builder";
+export * from "./repository-base";
 export * from "./types";
