@@ -33,14 +33,38 @@ export class ExampleRepository extends FirestoreRepositoryBase<AccountDocument> 
 }
 ```
 
+Example controller:
+
+```ts
+import { Controller, Get, Inject } from "@nestjs/common";
+import { ExampleRepository } from "./example.repository";
+
+@Controller("api/v1/example")
+export class ExampleController {
+  @Inject()
+  private readonly repository: ExampleRepository;
+
+  @Get()
+  async findAll() {
+    const documents = await this.repository
+      .createQueryBuilder()
+      .getManyAndCount();
+
+    return documents;
+  }
+}
+```
+
 Example module:
 
 ```ts
 import { Module } from "@nestjs/common";
 import { Firestore } from "@google-cloud/firestore";
+import { ExampleController } from "./example.controller";
 import { ExampleRepository } from "./example.repository";
 
 @Module({
+  controllers: [ExampleController],
   providers: [
     {
       provide: Firestore,
