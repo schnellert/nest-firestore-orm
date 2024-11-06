@@ -18,7 +18,7 @@ jobs:
           node-version: "20"
 
       - name: "Install dependenciecs"
-        run: "npm ci"
+        run: "npm install --legacy-peer-deps"
 
       - name: "Run npm audit"
         run: "npm audit"
